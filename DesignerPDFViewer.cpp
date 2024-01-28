@@ -1,5 +1,5 @@
-/*
-https://www.hackerrank.com/challenges/birthday-cake-candles/problem
+/* 
+https://www.hackerrank.com/challenges/designer-pdf-viewer/problem?isFullScreen=true
 */
 
 #include <bits/stdc++.h>
@@ -11,45 +11,49 @@ string rtrim(const string &);
 vector<string> split(const string &);
 
 /*
- * Complete the 'birthdayCakeCandles' function below.
+ * Complete the 'designerPdfViewer' function below.
  *
  * The function is expected to return an INTEGER.
- * The function accepts INTEGER_ARRAY candles as parameter.
+ * The function accepts following parameters:
+ *  1. INTEGER_ARRAY h
+ *  2. STRING word
  */
 
-int birthdayCakeCandles(vector<int> candles) {
-    int maxx=INT_MIN, sz=candles.size();
-    unordered_map<int, int>mp;
-    for(int i=0; i<sz; ++i){
-        maxx=max(maxx, candles[i]);
-        mp[candles[i]]++;
+int designerPdfViewer(vector<int> h, string word) {
+    unordered_map<char, int>mp;
+    int idx=0;
+    for(char ch='a'; ch<='z'; ++ch){
+        mp[ch]=h[idx++];
     }
-    return mp[maxx];
+    vector<int>all;
+    for(char &ch: word){
+        all.push_back(mp[ch]);
+    }
+    sort(all.begin(), all.end());
+    return all.back()*word.size();
 }
 
 int main()
 {
     ofstream fout(getenv("OUTPUT_PATH"));
 
-    string candles_count_temp;
-    getline(cin, candles_count_temp);
+    string h_temp_temp;
+    getline(cin, h_temp_temp);
 
-    int candles_count = stoi(ltrim(rtrim(candles_count_temp)));
+    vector<string> h_temp = split(rtrim(h_temp_temp));
 
-    string candles_temp_temp;
-    getline(cin, candles_temp_temp);
+    vector<int> h(26);
 
-    vector<string> candles_temp = split(rtrim(candles_temp_temp));
+    for (int i = 0; i < 26; i++) {
+        int h_item = stoi(h_temp[i]);
 
-    vector<int> candles(candles_count);
-
-    for (int i = 0; i < candles_count; i++) {
-        int candles_item = stoi(candles_temp[i]);
-
-        candles[i] = candles_item;
+        h[i] = h_item;
     }
 
-    int result = birthdayCakeCandles(candles);
+    string word;
+    getline(cin, word);
+
+    int result = designerPdfViewer(h, word);
 
     fout << result << "\n";
 
